@@ -5,6 +5,8 @@ class CountDownTimer {
   double _radius = 1;
   bool _isActive = true;
   int work = 30;
+  int shortBreak = 5;
+  int longBreak = 20;
   late Timer timer;
   late Duration _time;
   late Duration _fullTime;
@@ -12,6 +14,15 @@ class CountDownTimer {
   void startWork(){
     _radius = 1;
     _time = Duration(minutes: work, seconds: 0);
+    _fullTime = _time;
+  }
+
+  void startBreak(bool isShort) {
+    _radius = 1;
+    _time = Duration(
+      minutes: (isShort) ? shortBreak : longBreak,
+      seconds: 0,
+    );
     _fullTime = _time;
   }
 

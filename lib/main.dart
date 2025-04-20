@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
                     color: Color(0xff192230), 
                     name: 'Work', 
                     size: 24, 
-                    onPressed: emtyMethod,
+                    onPressed: () => timer.startWork(),
                   ), 
                 ),
         
@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
                     color: Color(0xff192230), 
                     name: 'Short Break', 
                     size: 24, 
-                    onPressed: emtyMethod,
+                    onPressed: () => timer.startBreak(true),
                   ), 
                 ),
         
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
                     color: Color(0xff192230), 
                     name: 'Long Break', 
                     size: 24, 
-                    onPressed: emtyMethod,
+                    onPressed: () => timer.startBreak(false),
                   ), 
                 ),
               ],
@@ -134,14 +134,11 @@ class MyApp extends StatelessWidget {
                 ],
               
               ),
-              SizedBox(height: 40,),
+              SizedBox(height: MediaQuery.of(context).size.height / 15,),
             ],
           );
         },
       ),
     );
   }
-
-  void emtyMethod(){}
-
 }
