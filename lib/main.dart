@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:work_timer/timerModel.dart';
 import 'package:work_timer/widgets.dart';
+import 'timer.dart';
 
 void main(){
   runApp(
@@ -17,10 +19,13 @@ void main(){
 
 class MyApp extends StatelessWidget {
   final double defaultPadding = 5.0;
-  const MyApp({super.key});
+  final CountDownTimer timer = CountDownTimer();
+
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    timer.startWork();
     return Scaffold(
       backgroundColor: Color(0xff0e1520),
       appBar: AppBar(
@@ -77,20 +82,28 @@ class MyApp extends StatelessWidget {
               ],
             ),
 
-            
             Expanded(
-              child: Padding(
-                padding: EdgeInsets.all(defaultPadding),
-                child: CircularPercentIndicator(
-                  radius: availableWidth / 2,
-                  lineWidth: 10,
-                  percent: 1,
-                  center: Text(
-                    '30:00',
-                    style: Theme.of(context).textTheme.displayMedium,
-                  ),
-                  progressColor: Color(0xff293f76),
-                ),
+              child: StreamBuilder<Object>(
+                initialData: '00:00',
+                stream: timer.stream(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  TimerModel timer = (snapshot.data == '00:00') ? TimerModel('00:00', 1) : snapshot.data;
+                  return Expanded(
+                    child: CircularPercentIndicator(
+                      radius: availableWidth / 2,
+                      lineWidth: 10,
+                      percent: timer.percent,
+                      center: Text(
+                        timer.time,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 54,
+                        ),
+                      ),
+                      progressColor: Color(0xff293f76),
+                    ),
+                  );
+                }
               ),
             ),
         
@@ -104,7 +117,7 @@ class MyApp extends StatelessWidget {
                     color: Color(0xff192230), 
                     name: 'Stop', 
                     size: 24, 
-                    onPressed: emtyMethod,
+                    onPressed: () => timer.stopTimer(),
                   ), 
                 ),
                 Padding(
@@ -115,14 +128,13 @@ class MyApp extends StatelessWidget {
                     color: Color(0xff192230), 
                     name: 'Start', 
                     size: 24, 
-                    onPressed: emtyMethod,
+                    onPressed: () => timer.startTimer(),
                   ), 
                 ),
-                  Padding(
-                  padding: EdgeInsets.all(defaultPadding),
-                 ),
                 ],
+              
               ),
+              SizedBox(height: 40,),
             ],
           );
         },
