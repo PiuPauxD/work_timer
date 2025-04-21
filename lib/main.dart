@@ -10,9 +10,6 @@ void main(){
     MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Productivity timer',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: MyApp(),
     ),
   );
@@ -72,7 +69,6 @@ class MyApp extends StatelessWidget {
       ),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints){
-          final double availableWidth = constraints.maxWidth;
           return SafeArea(
             child: Column(
             children: [
@@ -121,11 +117,11 @@ class MyApp extends StatelessWidget {
                 stream: timer.stream(),
                 builder: (BuildContext context, AsyncSnapshot<TimerModel> snapshot) {
                   final timerData = snapshot.data ?? TimerModel('00:00', 1);
-
                   return CircularPercentIndicator(
-                    radius: availableWidth / 2,
+                    radius:150,
                     lineWidth: 10,
-                    percent: timerData.percent,
+                    animation: false,
+                    percent: timerData.percent.clamp(0.01, 1.0),
                     center: Text(
                       timerData.time,
                       style: TextStyle(
