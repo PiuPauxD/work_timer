@@ -26,14 +26,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
   readSettings() async {
     prefs = await SharedPreferences.getInstance();
 
-    workTime = prefs?.getInt(WORKTIME) ?? 30;
-    await prefs!.setInt(WORKTIME, workTime);
+    int? workTime = prefs?.getInt(WORKTIME);
+    if (workTime == null){
+      await prefs?.setInt(WORKTIME, int.parse('30'));
+    }
 
-    shortBreak = prefs?.getInt(SHORTBREAK) ?? 5;
-    await prefs!.setInt(SHORTBREAK, shortBreak);
+    int? shortBreak = prefs?.getInt(SHORTBREAK);
+    if(shortBreak == null){
+      await prefs?.setInt(SHORTBREAK, int.parse('5'));
+    }
 
-    longBreak = prefs?.getInt(LONGBREAK) ?? 15;
-    await prefs!.setInt(LONGBREAK, longBreak);
+    int? longBreak = prefs?.getInt(LONGBREAK);
+    if (longBreak == null) {
+      await prefs?.setInt(LONGBREAK, int.parse('10'));
+    }
 
     setState(() {
       txtWork.text = workTime.toString();
